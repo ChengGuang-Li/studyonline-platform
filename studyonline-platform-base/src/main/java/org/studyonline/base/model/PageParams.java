@@ -1,5 +1,6 @@
 package org.studyonline.base.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
@@ -14,9 +15,11 @@ import lombok.ToString;
 public class PageParams {
 
     //Current Page
+    @ApiModelProperty("Current Page")
     private Long pageNo = 1L;
 
     //Default Number of Records Per Page.
+    @ApiModelProperty("Default Number of Records Per Page")
     private Long pageSize =10L;
 
     public PageParams(){

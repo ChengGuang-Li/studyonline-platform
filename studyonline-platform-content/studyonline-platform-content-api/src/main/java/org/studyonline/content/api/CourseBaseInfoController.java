@@ -1,6 +1,10 @@
 package org.studyonline.content.api;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,13 +19,14 @@ import org.studyonline.content.model.po.CourseBase;
  * @date 2023/12/29 22:30
  * @version 1.0
  */
+@Api(value = "Course information management interface",tags = "Course information management interface")
 @RestController
 public class CourseBaseInfoController {
 
-    @RequestMapping("/course/list")
-    public PageResult<CourseBase>  list(PageParams pageParams, @RequestBody(required=false)  QueryCourseParamsDto queryCourseParams){
+    @ApiOperation("Course information query interface")
+    @PostMapping("/course/list")
+    public PageResult<CourseBase>  list(PageParams pageParams, @RequestBody(required=false) @ApiParam("Parameters for Course Information Query") QueryCourseParamsDto queryCourseParams){
 
         return null;
-
     }
 }

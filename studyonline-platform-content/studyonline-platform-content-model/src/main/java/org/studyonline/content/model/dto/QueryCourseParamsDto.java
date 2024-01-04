@@ -1,5 +1,7 @@
 package org.studyonline.content.model.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
@@ -14,11 +16,14 @@ import lombok.ToString;
 public class QueryCourseParamsDto {
 
     //Review Status
+    @ApiModelProperty("Review Status")
     private String auditStatus;
 
     //course name
+    @ApiModelProperty("course name")
     private String courseName;
 
-    //Course Publishing Status 
+    //Course Publishing Status
+    @ApiModelProperty("Course Publishing Status")
     private String publishStatus;
 }
