@@ -1,0 +1,7 @@
+### Get all dictionary information
+GET {{system_host}}/system/dictionary/all
+Content-Type: application/json
+
+### Get dictionary information by code
+GET {{system_host}}/system/dictionary/code/002
+Content-Type: application/json

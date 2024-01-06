@@ -25,7 +25,7 @@ public class LocalDateTimeConfig {
     /*
      *   Deserialize content
      *   String -> LocalDateTime
-     *   客户端传入服务端数据
+     *   Client incoming server data
      * */
     @Bean
     public LocalDateTimeDeserializer localDateTimeDeserializer() {
