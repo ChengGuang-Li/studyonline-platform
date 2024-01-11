@@ -8,4 +8,30 @@ Content-Type: application/json
   "publishStatus": "203001"
 }
 
-<> 2024-01-06T104025.200.json
+### Course Category query
+POST {{content_host}}/content/course-category/tree-nodes/1
+Content-Type: application/json
+
+
+### add new Course
+POST {{content_host}}/content/course
+Content-Type: application/json
+
+{
+  "charge": "201001",
+  "price": 101,
+  "originalPrice":1000,
+  "qq": "22333",
+  "wechat": "223344",
+  "phone": "13333333",
+  "validDays": 365,
+  "mt": "1-1",
+  "st": "1-1-1",
+  "name": "Spring Boot Microservice",
+  "pic": "45456545",
+  "teachmode": "200002",
+  "users": "Chengguang",
+  "tags": "rrrrrrrr",
+  "grade": "204001",
+  "description": ""
+}

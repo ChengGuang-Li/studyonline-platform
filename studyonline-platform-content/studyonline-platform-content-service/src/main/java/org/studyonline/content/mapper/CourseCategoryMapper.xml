@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.studyonline.content.mapper.CourseCategoryMapper">
+    <!-- Generic query mapping results -->
+    <resultMap id="BaseResultMap" type="org.studyonline.content.model.po.CourseCategory">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="label" property="label" />
+        <result column="parentid" property="parentid" />
+        <result column="is_show" property="isShow" />
+        <result column="orderby" property="orderby" />
+        <result column="is_leaf" property="isLeaf" />
+    </resultMap>
+
+    <!-- General query result column -->
+    <sql id="Base_Column_List">
+        id, name, label, parentid, is_show, orderby, is_leaf
+    </sql>
+
+    <!-- Course classification tree structure query mapping results -->
+    <select id="selectTreeNodes" parameterType="string" resultType="org.studyonline.content.model.dto.CourseCategoryTreeDto">
+        WITH RECURSIVE t1 AS (
+            SELECT p.* FROM course_category p WHERE p.id = #{id}
+            UNION ALL
+            SELECT c.* FROM course_category c INNER JOIN t1 ON c.parentid = t1.id
+        )
+        SELECT * FROM t1 order by t1.id, t1.orderby;
+    </select>
+
+
+</mapper>

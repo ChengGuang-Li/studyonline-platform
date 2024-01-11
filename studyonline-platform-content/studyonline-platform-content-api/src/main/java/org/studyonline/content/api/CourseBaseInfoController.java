@@ -4,12 +4,16 @@ package org.studyonline.content.api;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.studyonline.base.model.PageParams;
 import org.studyonline.base.model.PageResult;
+import org.studyonline.content.model.dto.AddCourseDto;
+import org.studyonline.content.model.dto.CourseBaseInfoDto;
 import org.studyonline.content.model.dto.QueryCourseParamsDto;
 import org.studyonline.content.model.po.CourseBase;
 import org.studyonline.content.service.CourseBaseInfoService;
@@ -22,6 +26,7 @@ import org.studyonline.content.service.CourseBaseInfoService;
  */
 @Api(value = "Course information management interface",tags = "Course information management interface")
 @RestController
+@Slf4j
 public class CourseBaseInfoController {
 
     @Autowired
@@ -32,5 +37,15 @@ public class CourseBaseInfoController {
     public PageResult<CourseBase>  list(PageParams pageParams, @RequestBody(required=false) @ApiParam("Parameters for Course Information Query") QueryCourseParamsDto queryCourseParams){
 
         return courseBaseInfoService.queryCourseBaseInfoList(pageParams, queryCourseParams);
+    }
+
+
+    @PostMapping("/course")
+    @ApiOperation("Add New Course")
+    public CourseBaseInfoDto createCourseBase(@RequestBody  AddCourseDto addCourseDto){
+        Long companyId = 1232141425L;
+        CourseBaseInfoDto courseBase = courseBaseInfoService.createCourseBase(companyId, addCourseDto);
+
+        return courseBase;
     }
 }

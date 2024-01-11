@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * </p>
  */
 @Configuration
-@MapperScan("org.studyonline.content.mapper")
+@MapperScan(value = "org.studyonline.content.mapper")
 public class MybatisPlusConfig {
     /**
      * Define paging interceptor
