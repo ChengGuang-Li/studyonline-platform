@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.studyonline.base.exception.StudyOnlineException;
 import org.studyonline.base.model.PageParams;
 import org.studyonline.base.model.PageResult;
 import org.studyonline.content.mapper.CourseBaseMapper;
@@ -15,6 +16,7 @@ import org.studyonline.content.mapper.CourseCategoryMapper;
 import org.studyonline.content.mapper.CourseMarketMapper;
 import org.studyonline.content.model.dto.AddCourseDto;
 import org.studyonline.content.model.dto.CourseBaseInfoDto;
+import org.studyonline.content.model.dto.EditCourseDto;
 import org.studyonline.content.model.dto.QueryCourseParamsDto;
 import org.studyonline.content.model.po.CourseBase;
 import org.studyonline.content.model.po.CourseCategory;
@@ -87,10 +89,15 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
             throw new RuntimeException("Failed to add basic course information");
         }
         //get course info for return
-        CourseBaseInfoDto courseBaseInfo = getCourseBaseInfo(courseBaseNew.getId());
+        CourseBaseInfoDto courseBaseInfo = getCourseBaseInfoById(courseBaseNew.getId());
 
         return courseBaseInfo;
     }
+
+//    @Override
+//    public CourseBaseInfoDto queryCourseBaseById(Long id) {
+//
+//    }
 
     //if it exists -> update, or insert
      public int saveCourseMarket(CourseMarket courseMarket){
@@ -110,7 +117,8 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
      }
 
      //Get course info
-    public CourseBaseInfoDto getCourseBaseInfo(long courseId){
+     @Override
+     public CourseBaseInfoDto getCourseBaseInfoById(Long courseId){
         CourseBase courseBase = courseBaseMapper.selectById(courseId);
         if(courseBase == null){
             return null;
@@ -130,7 +138,38 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         CourseCategory courseCategory1 = courseCategoryMapper.selectById(courseBase.getMt());
         courseBaseInfoDto.setSt(courseCategory.getName()); //small category name
         courseBaseInfoDto.setMtName(courseCategory1.getName());//Big category name
-
         return courseBaseInfoDto;
+    }
+
+    @Override
+    public CourseBaseInfoDto updateCourseInfo(Long companyId, EditCourseDto editCourseDto) {
+        //validation :  This institution can only modify the courses of this institution
+        Long id = editCourseDto.getId(); //Course Id
+        CourseBaseInfoDto courseBaseInfo = getCourseBaseInfoById(id);
+        if(courseBaseInfo == null){
+            StudyOnlineException.cast("Course Information does not exist");
+        }
+        // This institution can only modify the courses of this institution
+        if(!companyId.equals(courseBaseInfo.getCompanyId())){
+            StudyOnlineException.cast("Only courses of this institution can be modified");
+        }
+        //Encapsulated data
+        BeanUtils.copyProperties(editCourseDto,courseBaseInfo);
+        courseBaseInfo.setChangeDate(LocalDateTime.now());
+        //Update Course Base Info
+        int isSuccess = courseBaseMapper.updateById(courseBaseInfo);
+        if(isSuccess < 1){
+            StudyOnlineException.cast("Edit Course Information failed");
+        }
+        //Update Course Market Info
+        CourseMarket courseMarket = new CourseMarket();
+        BeanUtils.copyProperties(editCourseDto,courseMarket);
+        courseMarket.setId(id);
+        int result = saveCourseMarket(courseMarket);
+        if(result < 1){
+            StudyOnlineException.cast("Edit Course Information failed");
+        }
+        CourseBaseInfoDto courseBaseInfoById = getCourseBaseInfoById(id);
+        return courseBaseInfoById;
     }
 }

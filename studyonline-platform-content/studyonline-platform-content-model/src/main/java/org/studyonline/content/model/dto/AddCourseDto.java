@@ -3,6 +3,7 @@ package org.studyonline.content.model.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.studyonline.base.exception.ValidationGroups;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -17,7 +18,8 @@ import javax.validation.constraints.Size;
 @ApiModel(value="AddCourseDto", description="add new course information")
 public class AddCourseDto {
 
- @NotEmpty(message = "Course Name Cannot Be Empty")
+ @NotEmpty(message = "The name of the new course cannot be empty",groups={ValidationGroups.Insert.class})
+ @NotEmpty(message = "Modify course name cannot be empty",groups={ValidationGroups.Update.class})
  @ApiModelProperty(value = "Course Name", required = true)
  private String name;
 
