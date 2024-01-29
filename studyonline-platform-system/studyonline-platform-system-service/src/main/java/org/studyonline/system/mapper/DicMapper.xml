@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.studyonline.system.mapper.DicMapper">
+
+    <!-- Generic query mapping results -->
+    <resultMap id="BaseResultMap" type="org.studyonline.system.model.po.Dictionary">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="code" property="code" />
+        <result column="item_values" property="itemValues" />
+    </resultMap>
+
+    <!-- General query result column -->
+    <sql id="Base_Column_List">
+        id, name, code, item_values
+    </sql>
+
+</mapper>

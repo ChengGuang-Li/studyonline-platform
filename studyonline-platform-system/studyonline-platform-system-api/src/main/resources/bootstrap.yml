@@ -1,0 +1,23 @@
+server:
+  servlet:
+    context-path: /system
+  port: 63110
+# Microservice configuration
+spring:
+  application:
+    name: content-api
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.101.65:3306/xcplus_system?serverTimezone=UTC&userUnicode=true&useSSL=false&
+    username: root
+    password: mysql
+# Log file configuration path
+logging:
+  config: classpath:log4j2-dev.xml
+
+swagger:
+  title: "Online Learning System Management System"
+  description: "The content management system manages course-related information."
+  base-package: org.studyonline.system
+  enabled: true
+  version: 1.0.0
