@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.studyonline.content.mapper.TeachplanMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.studyonline.content.model.po.Teachplan">
+        <id column="id" property="id" />
+        <result column="pname" property="pname" />
+        <result column="parentid" property="parentid" />
+        <result column="grade" property="grade" />
+        <result column="media_type" property="mediaType" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="description" property="description" />
+        <result column="timelength" property="timelength" />
+        <result column="orderby" property="orderby" />
+        <result column="course_id" property="courseId" />
+        <result column="course_pub_id" property="coursePubId" />
+        <result column="status" property="status" />
+        <result column="is_preview" property="isPreview" />
+        <result column="create_date" property="createDate" />
+        <result column="change_date" property="changeDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, pname, parentid, grade, media_type, start_time, end_time, description, timelength, orderby, course_id, course_pub_id, status, is_preview, create_date, change_date
+    </sql>
+
+    <resultMap id="treeNodeResultMap" type="org.studyonline.content.model.dto.TeachplanDto">
+        <!-- Level 1 data mapping -->
+        <id     column="one_id"        property="id" />
+        <result column="one_pname"      property="pname" />
+        <result column="one_parentid"     property="parentid" />
+        <result column="one_grade"  property="grade" />
+        <result column="one_mediaType"   property="mediaType" />
+        <result column="one_stratTime"   property="startTime" />
+        <result column="one_endTime"   property="endTime" />
+        <result column="one_orderby"   property="orderby" />
+        <result column="one_courseId"   property="courseId" />
+        <result column="one_coursePubId"   property="coursePubId" />
+        <!-- One level contains multiple secondary data -->
+        <collection property="teachPlanTreeNodes" ofType="org.studyonline.content.model.dto.TeachplanDto">
+            <!-- Secondary data mapping -->
+            <id     column="two_id"        property="id" />
+            <result column="two_pname"      property="pname" />
+            <result column="two_parentid"     property="parentid" />
+            <result column="two_grade"  property="grade" />
+            <result column="two_mediaType"   property="mediaType" />
+            <result column="two_stratTime"   property="startTime" />
+            <result column="two_endTime"   property="endTime" />
+            <result column="two_orderby"   property="orderby" />
+            <result column="two_courseId"   property="courseId" />
+            <result column="two_coursePubId"   property="coursePubId" />
+            <association property="teachplanMedia" javaType="org.studyonline.content.model.po.TeachplanMedia">
+                <result column="teachplanMeidaId"   property="id" />
+                <result column="mediaFilename"  property="mediaFilename"/>
+                <result column="mediaId"   property="mediaId" />
+                <result column="two_id"   property="teachplanId" />
+                <result column="two_courseId"   property="courseId" />
+                <result column="two_coursePubId"   property="coursePubId" />
+            </association>
+        </collection>
+    </resultMap>
+
+    <!--Course plan tree structure query-->
+    <select id="selectTreeNodes" resultMap="treeNodeResultMap" parameterType="long">
+        select
+            one.id             one_id,
+            one.pname          one_pname,
+            one.parentid       one_parentid,
+            one.grade          one_grade,
+            one.media_type     one_mediaType,
+            one.start_time     one_stratTime,
+            one.end_time       one_endTime,
+            one.orderby        one_orderby,
+            one.course_id      one_courseId,
+            one.course_pub_id  one_coursePubId,
+            two.id             two_id,
+            two.pname          two_pname,
+            two.parentid       two_parentid,
+            two.grade          two_grade,
+            two.media_type     two_mediaType,
+            two.start_time     two_stratTime,
+            two.end_time       two_endTime,
+            two.orderby        two_orderby,
+            two.course_id      two_courseId,
+            two.course_pub_id  two_coursePubId,
+            m1.media_fileName  mediaFilename,
+            m1.id teachplanMeidaId,
+            m1.media_id mediaId
+        from teachplan one
+                 INNER JOIN teachplan two on one.id = two.parentid
+                 LEFT JOIN teachplan_media m1 on m1.teachplan_id = two.id
+        where one.parentid = 0 and one.course_id=#{value}
+        order by one.orderby,
+                 two.orderby
+    </select>
+
+
+    <select id="countByCourseIdAndParentidLong" resultType="int" parameterType="hashmap">
+        SELECT COUNT(1) FROM teachplan one WHERE one.course_id=#{courseId} AND one.parentid=#{parentId}
+    </select>
+
+</mapper>
