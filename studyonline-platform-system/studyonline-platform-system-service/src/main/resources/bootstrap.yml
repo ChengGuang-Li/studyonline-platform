@@ -2,11 +2,16 @@
 spring:
   application:
     name: system-service
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.101.65:3306/xcplus_system?serverTimezone=UTC&userUnicode=true&useSSL=false&
-    username: root
-    password: mysql
+  cloud:
+    nacos:
+      server-addr: 192.168.101.65:8848
+      config:
+        namespace: dev01
+        group: studyonline-platform-project
+        file-extension: yaml
+        refresh-enabled: true
+  profiles:
+    active: dev
 # Log file configuration path
 logging:
   config: classpath:log4j2-dev.xml

@@ -1,7 +1,7 @@
 # Microservice configuration
 spring:
   application:
-    name: content-api
+    name: gateway
   cloud:
     nacos:
       server-addr: 192.168.101.65:8848
@@ -13,18 +13,12 @@ spring:
         group: studyonline-platform-project
         file-extension: yaml
         refresh-enabled: true
-        extension-configs:
-          - data-id: content-service-${spring.profiles.active}.yaml
-            group: studyonline-platform-project
-            refresh: true
         shared-configs:
-          - data-id: swagger-${spring.profiles.active}.yaml
-            group: studyonline-platform-common
-            refresh: true
           - data-id: logging-${spring.profiles.active}.yaml
             group: studyonline-platform-common
             refresh: true
   profiles:
     active: dev
+
 
 

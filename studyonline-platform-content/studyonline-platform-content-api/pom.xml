@@ -7,13 +7,15 @@
         <groupId>org.studyonline</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-
     <artifactId>studyonline-platform-content-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>studyonline-platform-content-api</name>
     <description>studyonline-platform-content-api</description>
 
      <dependencies>
+
+
+
          <dependency>
              <groupId>org.studyonline</groupId>
              <artifactId>studyonline-platform-content-service</artifactId>
@@ -59,7 +61,15 @@
              <artifactId>swagger-spring-boot-starter</artifactId>
              <version>1.9.0.RELEASE</version>
          </dependency>
-
+         <!-- Nacos configuration -->
+         <dependency>
+             <groupId>com.alibaba.cloud</groupId>
+             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>com.alibaba.cloud</groupId>
+             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+         </dependency>
      </dependencies>
 
 </project>
