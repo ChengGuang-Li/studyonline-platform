@@ -41,6 +41,9 @@ public class MediaFileServiceImpl implements MediaFileService {
     @Autowired
     MinioClient minioClient;
 
+    @Autowired
+    MediaFileService currentServiceProxy;
+
     //normal files(images,files)
     @Value("${minio.bucket.files}")
     private String bucket_mediaFiles;
@@ -88,7 +91,7 @@ public class MediaFileServiceImpl implements MediaFileService {
         }
         //save file info into database
         //check file exist in database or not
-        MediaFiles mediaFiles = addMediaFilesToDb(companyId, fileMd5, uploadFileParamsDto, bucket_mediaFiles, objectName);
+        MediaFiles mediaFiles = currentServiceProxy.addMediaFilesToDb(companyId, fileMd5, uploadFileParamsDto, bucket_mediaFiles, objectName);
         UploadFileResultDto uploadFileResultDto = new UploadFileResultDto();
         BeanUtils.copyProperties(mediaFiles,uploadFileResultDto);
 

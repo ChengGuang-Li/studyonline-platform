@@ -19,7 +19,7 @@ public interface MediaFileService {
     public PageResult<MediaFiles> queryMediaFiels(Long companyId, PageParams pageParams, QueryMediaParamsDto queryMediaParamsDto);
 
     /**
-     * 上传文件
+     * Upload File
      * @param companyId Institution ID
      * @param uploadFileParamsDto Upload file information
      * @param localFilePath file disk path
@@ -27,4 +27,14 @@ public interface MediaFileService {
      */
     public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath);
 
+    /**
+     * Save media file info into database
+     * @param companyId Institution ID
+     * @param fileMd5 Md5 value of File
+     * @param uploadFileParamsDto Upload file info
+     * @param bucket bucket name on MinIo
+     * @param objectName object name on MinIo
+     * @return
+     */
+    public MediaFiles addMediaFilesToDb(Long companyId,String fileMd5,UploadFileParamsDto uploadFileParamsDto,String bucket,String objectName);
 }
