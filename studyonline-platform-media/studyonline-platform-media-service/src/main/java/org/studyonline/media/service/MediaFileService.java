@@ -1,6 +1,7 @@
 package org.studyonline.media.service;
 import org.studyonline.base.model.PageParams;
 import org.studyonline.base.model.PageResult;
+import org.studyonline.base.model.RestResponse;
 import org.studyonline.media.model.dto.QueryMediaParamsDto;
 import org.studyonline.media.model.dto.UploadFileParamsDto;
 import org.studyonline.media.model.dto.UploadFileResultDto;
@@ -37,4 +38,48 @@ public interface MediaFileService {
      * @return
      */
     public MediaFiles addMediaFilesToDb(Long companyId,String fileMd5,UploadFileParamsDto uploadFileParamsDto,String bucket,String objectName);
+
+
+    /**
+     * @description Check if the file exists
+     * @param fileMd5 md5 of file
+     * @return org.studyonline.base.model.RestResponse<java.lang.Boolean> false does not exist, true exists
+     * @author Chengguang Li
+     * @date 12/02/2024 21:24
+     */
+    public RestResponse<Boolean> checkFile(String fileMd5);
+
+    /**
+     * @description Check if the chunk exists
+     * @param fileMd5  md5 of file
+     * @param chunkIndex  block sequence number
+     * @return org.studyonline.base.model.RestResponse<java.lang.Boolean> false does not exist, true exists
+     * @author Chengguang Li
+     * @date 12/02/2024 21:24
+     */
+    public RestResponse<Boolean> checkChunk(String fileMd5, int chunkIndex);
+
+    /**
+     * @description Upload in chunks
+     * @param fileMd5  File md5
+     * @param chunk  block sequence number
+     * @param localChunkFilePath  file local path
+     * @return org.studyonline.base.model.RestResponse<java.lang.Boolean>
+     * @author Chengguang Li
+     * @date 12/02/2024 21:24
+     */
+    public RestResponse uploadChunk(String fileMd5,int chunk,String localChunkFilePath);
+
+
+    /**
+     * @description Merge Chunks
+     * @param companyId  Institution ID
+     * @param fileMd5  File md5
+     * @param chunkTotal block sum
+     * @param uploadFileParamsDto File information
+     * @return org.studyonline.base.model.RestResponse<java.lang.Boolean>
+     * @author Chengguang Li
+     * @date 12/02/2024 22:45
+     */
+    public RestResponse mergechunks(Long companyId,String fileMd5,int chunkTotal,UploadFileParamsDto uploadFileParamsDto);
 }
