@@ -21,10 +21,12 @@ import org.studyonline.base.model.PageParams;
 import org.studyonline.base.model.PageResult;
 import org.studyonline.base.model.RestResponse;
 import org.studyonline.media.mapper.MediaFilesMapper;
+import org.studyonline.media.mapper.MediaProcessMapper;
 import org.studyonline.media.model.dto.QueryMediaParamsDto;
 import org.studyonline.media.model.dto.UploadFileParamsDto;
 import org.studyonline.media.model.dto.UploadFileResultDto;
 import org.studyonline.media.model.po.MediaFiles;
+import org.studyonline.media.model.po.MediaProcess;
 import org.studyonline.media.service.MediaFileService;
 
 import java.io.*;
@@ -47,6 +49,9 @@ public class MediaFileServiceImpl implements MediaFileService {
 
     @Autowired
     MediaFileService currentServiceProxy;
+
+    @Autowired
+    MediaProcessMapper mediaProcessMapper;
 
     //normal files(images,files)
     @Value("${minio.bucket.files}")
@@ -181,7 +186,10 @@ public class MediaFileServiceImpl implements MediaFileService {
                 StudyOnlineException.cast("Save file info failed");
             }
         }
-
+        //Record pending tasks -  Record data to the MediaProcess table
+        // Only record if it is avi video
+        addWaitingTask(mediaFiles);
+        log.debug("Save file information to database successfully,{}", mediaFiles.toString());
         return mediaFiles;
     }
 
@@ -337,14 +345,14 @@ public class MediaFileServiceImpl implements MediaFileService {
     private String getFilePathByMd5(String fileMd5,String fileExt){
         return   fileMd5.substring(0,1) + "/" + fileMd5.substring(1,2) + "/" + fileMd5 + "/" +fileMd5 +fileExt;
     }
-
     /**
      * Download files from minio
      * @param bucket bucket
      * @param objectName object name
      * @return Downloaded file
      */
-    public File downloadFileFromMinIO(String bucket,String objectName){
+    public File downloadFileFromMinIO(String bucket,String objectName)
+    {
         //Temporary  file
         File minioFile = null;
         FileOutputStream outputStream = null;
@@ -401,6 +409,32 @@ public class MediaFileServiceImpl implements MediaFileService {
     }
 
 
+    /**
+     * Add pending tasks
+     * @param mediaFiles Media asset file information
+     */
+    private void addWaitingTask(MediaFiles mediaFiles){
+        //file name
+        String filename = mediaFiles.getFilename();
+        //file extension
+        String exension = filename.substring(filename.lastIndexOf("."));
+        //File mimeType
+        String mimeType = getMimeType(exension);
+        //If it is an avi video, add it to the video pending list
+        if(mimeType.equals("video/x-msvideo")){
+            MediaProcess mediaProcess = new MediaProcess();
+            BeanUtils.copyProperties(mediaFiles,mediaProcess);
+            mediaProcess.setStatus("1");// Pending
+            mediaProcess.setFailCount(0);//The number of failures defaults to 0
+            mediaProcess.setCreateDate(LocalDateTime.now());
+            mediaProcess.setUrl(null);
+            int insert = mediaProcessMapper.insert(mediaProcess);
+            if(insert < 1){
+                log.error("Failed to save file information to database MediaProcess table, {}", mediaFiles.toString());
+                StudyOnlineException.cast("Failed to save file information to database MediaProcess table");
+            }
+        }
+    }
 
 }
 

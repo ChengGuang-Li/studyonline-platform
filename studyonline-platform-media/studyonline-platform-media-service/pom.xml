@@ -69,7 +69,9 @@
             <artifactId>okhttp</artifactId>
             <version>4.8.1</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
+        </dependency>
     </dependencies>
 </project>

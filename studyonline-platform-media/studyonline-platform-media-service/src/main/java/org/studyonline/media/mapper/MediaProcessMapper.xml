@@ -4,19 +4,39 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.studyonline.media.model.po.MediaProcess">
-        <id column="id" property="id" />
-        <result column="file_id" property="fileId" />
-        <result column="filename" property="filename" />
-        <result column="bucket" property="bucket" />
-        <result column="status" property="status" />
-        <result column="create_date" property="createDate" />
-        <result column="finish_date" property="finishDate" />
-        <result column="url" property="url" />
+        <id column="id" property="id"/>
+        <result column="file_id" property="fileId"/>
+        <result column="filename" property="filename"/>
+        <result column="bucket" property="bucket"/>
+        <result column="status" property="status"/>
+        <result column="create_date" property="createDate"/>
+        <result column="finish_date" property="finishDate"/>
+        <result column="url" property="url"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, file_id, filename, bucket, status, create_date, finish_date, url
+        id
+        , file_id, filename, bucket, status, create_date, finish_date, url
     </sql>
+
+    <select id="selectListByShardIndex" parameterType="hashmap"
+            resultType="org.studyonline.media.model.po.MediaProcess">
+        <![CDATA[
+        SELECT *
+        FROM media_process m
+        WHERE m.id % #{shardTotal} = #{shardIndex}
+          and (m.status = '1'
+           or m.status = '3' )
+          and m.fail_count
+            < 3 limit #{count}
+        ]]>
+     </select>
+
+     <update id="startTask" parameterType="long" >
+         <![CDATA[
+         update media_process m set m.status='4' where (m.status='1' or m.status='3') and m.fail_count<3 and m.id=#{id}
+         ]]>
+     </update>
 
 </mapper>

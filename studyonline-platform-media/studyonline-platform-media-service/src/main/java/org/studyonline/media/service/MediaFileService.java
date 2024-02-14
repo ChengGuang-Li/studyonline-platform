@@ -7,6 +7,8 @@ import org.studyonline.media.model.dto.UploadFileParamsDto;
 import org.studyonline.media.model.dto.UploadFileResultDto;
 import org.studyonline.media.model.po.MediaFiles;
 
+import java.io.File;
+
 public interface MediaFileService {
 
     /**
@@ -82,4 +84,23 @@ public interface MediaFileService {
      * @date 12/02/2024 22:45
      */
     public RestResponse mergechunks(Long companyId,String fileMd5,int chunkTotal,UploadFileParamsDto uploadFileParamsDto);
+
+
+    /**
+     * Download files from minio
+     * @param bucket bucket
+     * @param objectName object name
+     * @return Downloaded file
+     */
+    public File downloadFileFromMinIO(String bucket, String objectName);
+
+    /**
+     * upload media files to MinIo
+     * @param localFilePath
+     * @param mimeType
+     * @param bucket
+     * @param objectName
+     * @return
+     */
+    public boolean addMediaFilesToMinIo(String localFilePath, String mimeType, String bucket, String objectName);
 }
