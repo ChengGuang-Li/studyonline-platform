@@ -1,7 +1,9 @@
 package org.studyonline.content.service;
 
+import org.studyonline.content.model.dto.BindTeachplanMediaDto;
 import org.studyonline.content.model.dto.SaveTeachplanDto;
 import org.studyonline.content.model.dto.TeachplanDto;
+import org.studyonline.content.model.po.TeachplanMedia;
 
 import java.util.List;
 
@@ -31,4 +33,12 @@ public interface TeachplanService {
     public void saveTeachplan(SaveTeachplanDto teachplanDto);
 
 
+    /**
+     * @description Curriculum plan and media resource information binding
+     * @param bindTeachplanMediaDto
+     * @return org.studyonline.content.model.po.TeachplanMedia
+     * @author Chengguang Li
+     * @date 14/02/2024 3:51 pm
+     */
+    public TeachplanMedia associationMedia(BindTeachplanMediaDto bindTeachplanMediaDto);
 }

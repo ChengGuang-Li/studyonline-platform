@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.studyonline.content.model.dto.BindTeachplanMediaDto;
 import org.studyonline.content.model.dto.SaveTeachplanDto;
 import org.studyonline.content.model.dto.TeachplanDto;
 import org.studyonline.content.service.TeachplanService;
@@ -38,4 +39,14 @@ public class TechplanController {
      public void saveTeachplan( @RequestBody SaveTeachplanDto teachplan){
           teachplanService.saveTeachplan(teachplan);
      }
+
+
+     @ApiOperation(value = "Curriculum plan and media resource information binding")
+     @PostMapping("/teachplan/association/media")
+     public void associationMedia(@RequestBody BindTeachplanMediaDto bindTeachplanMediaDto){
+          teachplanService.associationMedia(bindTeachplanMediaDto);
+     }
+
+
+
 }
