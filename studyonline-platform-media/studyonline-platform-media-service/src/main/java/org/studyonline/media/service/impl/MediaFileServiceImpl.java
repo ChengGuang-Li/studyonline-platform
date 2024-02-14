@@ -142,6 +142,12 @@ public class MediaFileServiceImpl implements MediaFileService {
         return false;
     }
 
+    @Override
+    public MediaFiles getFileById(String id) {
+        MediaFiles mediaFiles = mediaFilesMapper.selectById(id);
+        return mediaFiles;
+    }
+
     //Get md5 of file
     private String getFileMd5(File file) {
         try (FileInputStream fileInputStream = new FileInputStream(file)) {

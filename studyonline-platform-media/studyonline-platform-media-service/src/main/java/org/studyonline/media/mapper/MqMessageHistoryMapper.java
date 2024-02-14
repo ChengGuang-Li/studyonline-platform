@@ -6,10 +6,10 @@ import org.studyonline.media.model.po.MqMessageHistory;
 
 /**
  * <p>
- *  Mapper 接口
+ *  MQ Hisotry Mapper
  * </p>
  *
- * @author itcast
+ * @author Chengguang Li
  */
 public interface MqMessageHistoryMapper extends BaseMapper<MqMessageHistory> {
 

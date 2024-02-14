@@ -103,4 +103,12 @@ public interface MediaFileService {
      * @return
      */
     public boolean addMediaFilesToMinIo(String localFilePath, String mimeType, String bucket, String objectName);
+
+    /**
+     *  Find Media File info by mediaId
+     * @param id
+     * @return
+     */
+    public MediaFiles getFileById(String id);
+
 }

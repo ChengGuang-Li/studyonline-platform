@@ -6,10 +6,10 @@ import org.studyonline.media.model.po.MqMessage;
 
 /**
  * <p>
- *  Mapper 接口
+ *  Mapper
  * </p>
  *
- * @author itcast
+ * @author Chengguang Li
  */
 public interface MqMessageMapper extends BaseMapper<MqMessage> {
 

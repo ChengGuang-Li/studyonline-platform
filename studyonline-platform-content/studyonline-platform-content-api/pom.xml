@@ -13,9 +13,6 @@
     <description>studyonline-platform-content-api</description>
 
      <dependencies>
-
-
-
          <dependency>
              <groupId>org.studyonline</groupId>
              <artifactId>studyonline-platform-content-service</artifactId>
@@ -70,6 +67,13 @@
              <groupId>com.alibaba.cloud</groupId>
              <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
          </dependency>
+
+         <!-- Spring Boot Freemarker integration for result view -->
+         <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-freemarker</artifactId>
+         </dependency>
+
      </dependencies>
 
 </project>

@@ -24,6 +24,9 @@ spring:
           - data-id: logging-${spring.profiles.active}.yaml
             group: studyonline-platform-common
             refresh: true
+          - data-id: freemarker-config-${spring.profiles.active}.yaml
+            group: studyonline-platform-common
+            refresh: true
   profiles:
     active: dev
 
