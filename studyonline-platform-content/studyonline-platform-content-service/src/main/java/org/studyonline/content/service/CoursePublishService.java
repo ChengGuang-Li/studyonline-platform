@@ -18,4 +18,24 @@ public interface CoursePublishService {
      */
     public CoursePreviewDto getCoursePreviewInfo(Long courseId);
 
+
+    /**
+     * @description Submit review
+     * @param courseId  course id
+     * @return void
+     * @author Chengguang Li
+     * @date 16/02/2024 10:00 pm
+     */
+    public void commitAudit(Long companyId,Long courseId);
+
+    /**
+     * @description Course publishing interface
+     * @param companyId Institution ID
+     * @param courseId Course id
+     * @return void
+     * @author Chengguang Li
+     * @date 16/02/2024 10:00 pm
+     */
+    public void publish(Long companyId,Long courseId);
+
 }

@@ -1,48 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>studyonline-platform-content</artifactId>
+        <artifactId>studyonline-platform-parent</artifactId>
         <groupId>org.studyonline</groupId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../studyonline-platform-parent</relativePath>
     </parent>
 
-    <artifactId>studyonline-platform-content-service</artifactId>
+    <artifactId>studyonline-platform-message-sdk</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>studyonline-platform-content-service</name>
-    <description>studyonline-platform-content-service</description>
+    <name>studyonline-platform-message-sdk</name>
+    <description>studyonline-platform-message-sdk</description>
 
     <dependencies>
         <dependency>
-            <groupId>org.studyonline</groupId>
-            <artifactId>studyonline-platform-content-model</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-context</artifactId>
         </dependency>
-
-        <!-- MySQL  -->
+        <!-- MySQL 驱动 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- mybatis plus -->
+        <!-- mybatis plus的依赖 -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-context</artifactId>
-        </dependency>
-        <!-- Spring Boot integration Junit -->
+        <!-- Spring Boot 集成 Junit -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- Eliminate conflicts with log packages that Spring Boot depends on -->
+        <!-- 排除 Spring Boot 依赖的日志包冲突 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -54,22 +48,20 @@
             </exclusions>
         </dependency>
 
-        <!-- Spring Boot integrated log4j2 -->
+        <!-- Spring Boot 集成 log4j2 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
 
-        <!-- Nacos configuration -->
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>org.studyonline</groupId>
-            <artifactId>studyonline-platform-message-sdk</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.8.1</version>
         </dependency>
 
     </dependencies>
