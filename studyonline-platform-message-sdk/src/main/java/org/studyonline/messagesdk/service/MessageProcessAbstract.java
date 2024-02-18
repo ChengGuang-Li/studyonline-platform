@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 @Data
 public abstract class MessageProcessAbstract {
 
-    @Autowired
+     @Autowired
      MqMessageService mqMessageService;
 
     /**

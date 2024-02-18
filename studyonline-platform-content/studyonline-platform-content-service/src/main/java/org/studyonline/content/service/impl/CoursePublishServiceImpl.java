@@ -1,12 +1,21 @@
 package org.studyonline.content.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.multipart.MultipartFile;
 import org.studyonline.base.exception.StudyOnlineException;
+import org.studyonline.content.config.MultipartSupportConfig;
+import org.studyonline.content.feignclient.MediaServiceClient;
 import org.studyonline.content.mapper.CourseBaseMapper;
 import org.studyonline.content.mapper.CourseMarketMapper;
 import org.studyonline.content.mapper.CoursePublishMapper;
@@ -24,8 +33,13 @@ import org.studyonline.content.service.TeachplanService;
 import org.studyonline.messagesdk.model.po.MqMessage;
 import org.studyonline.messagesdk.service.MqMessageService;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description:
@@ -33,6 +47,7 @@ import java.util.List;
  * @Date: 14/02/2024 10:03 pm
  */
 @Service
+@Slf4j
 public class CoursePublishServiceImpl implements CoursePublishService {
 
     @Autowired
@@ -54,6 +69,9 @@ public class CoursePublishServiceImpl implements CoursePublishService {
 
     @Autowired
     MqMessageService mqMessageService;
+
+    @Autowired
+    MediaServiceClient mediaServiceClient;
 
     @Override
     public CoursePreviewDto getCoursePreviewInfo(Long courseId) {
@@ -152,6 +170,68 @@ public class CoursePublishServiceImpl implements CoursePublishService {
         //Delete the data in course_publish_pre table
         int i = coursePublishPreMapper.deleteById(courseId);
 
+
+    }
+
+    @Override
+    public File generateCourseHtml(Long courseId) {
+        //Static files
+        File htmlFile  = null;
+
+        try {
+            //Configure freemarker
+            Configuration configuration = new Configuration(Configuration.getVersion());
+
+            //Load template
+            //Select the specified template path, under templates under classpath
+            //String classpath = this.getClass().getResource("/").getPath();
+            // configuration.setDirectoryForTemplateLoading(new File(classpath + "/templates/"));
+            configuration.setTemplateLoader(new ClassTemplateLoader(this.getClass().getClassLoader(),"/templates"));
+
+            //Set character encoding
+            configuration.setDefaultEncoding("utf-8");
+
+            //Specify template file name
+            Template template = configuration.getTemplate("course_template.ftl");
+
+            //Prepare data
+            CoursePreviewDto coursePreviewInfo = this.getCoursePreviewInfo(courseId);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("model", coursePreviewInfo);
+
+            //Statics
+            //Parameter 1: template, parameter 2: data model
+            String content = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
+
+            //Output static content to a file
+            InputStream inputStream = IOUtils.toInputStream(content);
+            //Create static files
+            htmlFile = File.createTempFile("course",".html");
+            log.debug("Make the course static and generate static files:{}",htmlFile.getAbsolutePath());
+            //output stream
+            FileOutputStream outputStream = new FileOutputStream(htmlFile);
+            IOUtils.copy(inputStream, outputStream);
+        } catch (Exception e) {
+            log.error("Course static exception:{}",e.toString());
+            StudyOnlineException.cast("Course static exception");
+        }
+        return htmlFile;
+    }
+
+    @Override
+    public void uploadCourseHtml(Long courseId, File file) {
+       try{
+           MultipartFile multipartFile = MultipartSupportConfig.getMultipartFile(file);
+           String course = mediaServiceClient.upload(multipartFile, "course/"+courseId+".html");
+           if(course==null){
+               log.error("Upload File is empty");
+               StudyOnlineException.cast("Failed to upload static files");
+           }
+       }catch (Exception e){
+           log.error("Upload static pages failed: {}",e.getMessage());
+           StudyOnlineException.cast("Exception when uploading static files");
+       }
 
     }
 }

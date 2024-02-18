@@ -1,4 +1,5 @@
 package org.studyonline.media.service;
+
 import org.studyonline.base.model.PageParams;
 import org.studyonline.base.model.PageResult;
 import org.studyonline.base.model.RestResponse;
@@ -26,9 +27,10 @@ public interface MediaFileService {
      * @param companyId Institution ID
      * @param uploadFileParamsDto Upload file information
      * @param localFilePath file disk path
+     * @param objectName object name
      * @return File information
      */
-    public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath);
+    public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath, String objectName);
 
     /**
      * Save media file info into database

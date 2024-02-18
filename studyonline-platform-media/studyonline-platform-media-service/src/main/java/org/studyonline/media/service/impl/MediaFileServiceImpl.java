@@ -10,6 +10,7 @@ import io.minio.messages.DeleteObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -81,7 +82,7 @@ public class MediaFileServiceImpl implements MediaFileService {
     }
 
     @Override
-    public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath) {
+    public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath, String objectName) {
         //upload File into MinIo
         File file = new File(localFilePath);
         if (!file.exists()) {
@@ -91,7 +92,9 @@ public class MediaFileServiceImpl implements MediaFileService {
         String extension = fileName.substring(fileName.lastIndexOf("."));
         String defaultFolderPath = getDefaultFolderPath();
         String fileMd5 = getFileMd5(file);
-        String objectName = defaultFolderPath + fileMd5 + extension;
+        if(StringUtils.isBlank(objectName)){
+            objectName = defaultFolderPath + fileMd5 + extension;
+        }
 
         String mimeType = getMimeType(extension);
         boolean isUploadSuccess = addMediaFilesToMinIo(localFilePath, mimeType, bucket_mediaFiles, objectName);

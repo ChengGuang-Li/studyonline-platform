@@ -10,6 +10,10 @@ spring:
         group: studyonline-platform-project
         file-extension: yaml
         refresh-enabled: true
+        shared-configs:
+             - data-id: feign-${spring.profiles.active}.yaml
+               group: studyonline-platform-common
+               refresh: true
   profiles:
     active: dev
 # Log file configuration path

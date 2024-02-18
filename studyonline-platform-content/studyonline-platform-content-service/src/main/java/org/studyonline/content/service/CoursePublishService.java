@@ -2,6 +2,8 @@ package org.studyonline.content.service;
 
 import org.studyonline.content.model.dto.CoursePreviewDto;
 
+import java.io.File;
+
 /**
  * @Description: Course preview and publishing interface
  * @Author: Chengguang Li
@@ -37,5 +39,23 @@ public interface CoursePublishService {
      * @date 16/02/2024 10:00 pm
      */
     public void publish(Long companyId,Long courseId);
+
+    /**
+     * @description Static course
+     * @param courseId  course id
+     * @return File Static files
+     * @author Chengguang Li
+     * @date 16/02/2024 10:00 pm
+     */
+    public File generateCourseHtml(Long courseId);
+    /**
+     * @description Upload course static page
+     * @param file  Static files
+     * @return void
+     * @author Chengguang Li
+     * @date 16/02/2024 10:00 pm
+     */
+    public void  uploadCourseHtml(Long courseId, File file);
+
 
 }

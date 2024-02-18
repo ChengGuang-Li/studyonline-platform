@@ -1,0 +1,55 @@
+package org.studyonline.content.config;
+
+import feign.codec.Encoder;
+import feign.form.spring.SpringFormEncoder;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.cloud.openfeign.support.SpringEncoder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.context.annotation.Scope;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+
+/**
+ * @Description:
+ * @Author: Chengguang Li
+ * @Date: 18/02/2024 7:02 pm
+ */
+
+@Configuration
+public class MultipartSupportConfig {
+
+    @Autowired
+    private ObjectFactory<HttpMessageConverters> messageConverters;
+
+    @Bean
+    @Primary//Take precedence when injecting beans of the same type
+    @Scope("prototype")
+    public Encoder feignEncoder() {
+        return new SpringFormEncoder(new SpringEncoder(messageConverters));
+    }
+
+    //Convert file to Multipart
+    public static MultipartFile getMultipartFile(File file) {
+        FileItem item = new DiskFileItemFactory().createItem("file", MediaType.MULTIPART_FORM_DATA_VALUE, true, file.getName());
+        try (FileInputStream inputStream = new FileInputStream(file);
+             OutputStream outputStream = item.getOutputStream()) {
+            IOUtils.copy(inputStream, outputStream);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new CommonsMultipartFile(item);
+    }
+}
