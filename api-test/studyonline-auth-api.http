@@ -1,0 +1,31 @@
+### Get authorization code
+# http://localhost:63070/auth/oauth/authorize?client_id=XcWebApp&response_type=code&scope=all&redirect_uri=http://www.studyonline.cn
+
+### Get the token
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=authorization_code&code=Q9GihC&redirect_uri=http://www.studyonline.cn
+
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic3R1ZHlvbmxpbmUtcGxhdGZvcm0iXSwidXNlcl9uYW1lIjoibGlzaSIsInNjb3BlIjpbImFsbCJdLCJleHAiOjE3MDg0Mzc3MzQsImF1dGhvcml0aWVzIjpbInAyIl0sImp0aSI6IjdjNTY3YWM2LWVlN2ItNDNkYS1iN2M2LTg1MWU1NmEzMzhhMSIsImNsaWVudF9pZCI6IlhjV2ViQXBwIn0.FYYZkTNGOa5hNHDdyeRPsUErmSKgNBzHiVM-jexYBlA",
+  "token_type": "bearer",
+  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic3R1ZHlvbmxpbmUtcGxhdGZvcm0iXSwidXNlcl9uYW1lIjoibGlzaSIsInNjb3BlIjpbImFsbCJdLCJhdGkiOiI3YzU2N2FjNi1lZTdiLTQzZGEtYjdjNi04NTFlNTZhMzM4YTEiLCJleHAiOjE3MDg2ODk3MzQsImF1dGhvcml0aWVzIjpbInAyIl0sImp0aSI6IjMzZTc4YzVmLTI1M2QtNGVhYS1iYzFlLWQwNTRkMzQ1NDgyOSIsImNsaWVudF9pZCI6IlhjV2ViQXBwIn0.aS57iadeOEoXXa3Mg9sosoCV9XW264S5jRZL0k7nl_0",
+  "expires_in": 7198,
+  "scope": "all",
+  "jti": "7c567ac6-ee7b-43da-b7c6-851e56a338a1"
+}
+
+
+### Get the token by passwords
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username=zhangsan&password=123
+
+
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic3R1ZHlvbmxpbmUtcGxhdGZvcm0iXSwidXNlcl9uYW1lIjoiemhhbmdzYW4iLCJzY29wZSI6WyJhbGwiXSwiZXhwIjoxNzA4NDM3ODE0LCJhdXRob3JpdGllcyI6WyJwMSJdLCJqdGkiOiIxYTY1N2RiZS1mOWEwLTQzOWUtODE2ZC0xNTcxYTQ1NTYzNWEiLCJjbGllbnRfaWQiOiJYY1dlYkFwcCJ9.h-tsZRt3_meNqh7c3_Y4awv-H-nZClQWjQQ5XOZpvlg",
+  "token_type": "bearer",
+  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic3R1ZHlvbmxpbmUtcGxhdGZvcm0iXSwidXNlcl9uYW1lIjoiemhhbmdzYW4iLCJzY29wZSI6WyJhbGwiXSwiYXRpIjoiMWE2NTdkYmUtZjlhMC00MzllLTgxNmQtMTU3MWE0NTU2MzVhIiwiZXhwIjoxNzA4Njg5ODE0LCJhdXRob3JpdGllcyI6WyJwMSJdLCJqdGkiOiJhYThiZWE2Yy1hZTNjLTQ4ODYtOWVkZi0yNWUzMTcyZGU4YjIiLCJjbGllbnRfaWQiOiJYY1dlYkFwcCJ9.zqpJ7DTC-RV5Hc846ayEFcqkumfHxt3eoa_ZOwub7-g",
+  "expires_in": 7199,
+  "scope": "all",
+  "jti": "1a657dbe-f9a0-439e-816d-1571a455635a"
+}
+
+###check jwt token
+POST {{auth_host}}/auth/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic3R1ZHlvbmxpbmUtcGxhdGZvcm0iXSwidXNlcl9uYW1lIjoibGlzaSIsInNjb3BlIjpbImFsbCJdLCJleHAiOjE3MDg0Mzc3MzQsImF1dGhvcml0aWVzIjpbInAyIl0sImp0aSI6IjdjNTY3YWM2LWVlN2ItNDNkYS1iN2M2LTg1MWU1NmEzMzhhMSIsImNsaWVudF9pZCI6IlhjV2ViQXBwIn0.FYYZkTNGOa5hNHDdyeRPsUErmSKgNBzHiVM-jexYBlA

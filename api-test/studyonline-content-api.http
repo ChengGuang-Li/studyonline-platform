@@ -35,3 +35,10 @@ Content-Type: application/json
   "grade": "204001",
   "description": ""
 }
+### search Course with token
+GET  {{content_host}}/content/course/40
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic3R1ZHlvbmxpbmUtcGxhdGZvcm0iXSwidXNlcl9uYW1lIjoiemhhbmdzYW4iLCJzY29wZSI6WyJhbGwiXSwiZXhwIjoxNzA4NDM3ODE0LCJhdXRob3JpdGllcyI6WyJwMSJdLCJqdGkiOiIxYTY1N2RiZS1mOWEwLTQzOWUtODE2ZC0xNTcxYTQ1NTYzNWEiLCJjbGllbnRfaWQiOiJYY1dlYkFwcCJ9.h-tsZRt3_meNqh7c3_Y4awv-H-nZClQWjQQ5XOZpvlg
+
+### search Course with token through gateway
+GET  {{gateway_host}}/content/course/40
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic3R1ZHlvbmxpbmUtcGxhdGZvcm0iXSwidXNlcl9uYW1lIjoiemhhbmdzYW4iLCJzY29wZSI6WyJhbGwiXSwiZXhwIjoxNzA4NDQzOTM1LCJhdXRob3JpdGllcyI6WyJwMSJdLCJqdGkiOiJiZTVlYTA3OS1jYzYzLTRkZTAtOTkyMS05MDlhNGUwNDcyMjkiLCJjbGllbnRfaWQiOiJYY1dlYkFwcCJ9.n9cJr3moyrcf8R6O8yoblSo1l2wiug_fQm-ZyLKn1vY
