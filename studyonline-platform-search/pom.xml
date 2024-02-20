@@ -9,7 +9,7 @@
         <relativePath>../studyonline-platform-parent</relativePath>
     </parent>
 
-    <artifactId>Studyonline-platform-search</artifactId>
+    <artifactId>studyonline-platform-search</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Studyonline-platform-search</name>
     <description>Studyonline-platform-search</description>
