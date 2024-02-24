@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -34,8 +35,8 @@ import javax.annotation.Resource;
           throws Exception {
         clients.inMemory()//Use in-memory storage
                 .withClient("XcWebApp")// client_id
-                .secret("XcWebApp")//client key
-                //.secret(new BCryptPasswordEncoder().encode("XcWebApp"))//client key
+                //.secret("XcWebApp")//client key
+                .secret(new BCryptPasswordEncoder().encode("XcWebApp"))//client key
                 .resourceIds("studyonline-platform")//Resource list
                 .authorizedGrantTypes("authorization_code", "password","client_credentials","implicit","refresh_token")// Authorization types allowed by this client authorization_code, password, refresh_token, implicit, client_credentials
                 .scopes("all")// Allowed authorization scope

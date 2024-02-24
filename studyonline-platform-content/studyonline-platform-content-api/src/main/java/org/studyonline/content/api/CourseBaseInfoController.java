@@ -17,6 +17,7 @@ import org.studyonline.content.model.dto.EditCourseDto;
 import org.studyonline.content.model.dto.QueryCourseParamsDto;
 import org.studyonline.content.model.po.CourseBase;
 import org.studyonline.content.service.CourseBaseInfoService;
+import org.studyonline.content.util.SecurityUtil;
 
 /**
  * @description Course Information Editing Interface
@@ -59,9 +60,9 @@ public class CourseBaseInfoController {
     @ApiOperation("Edit Course Information ")
     @PutMapping("/course")
     public CourseBaseInfoDto updateCourseInfo( @RequestBody @Validated(ValidationGroups.Update.class) EditCourseDto editCourseDto){
-        Long companyId = 1232141425L;
+        SecurityUtil.User user = SecurityUtil.getUser();
+        Long companyId = Long.parseLong(user.getCompanyId());
         CourseBaseInfoDto courseBaseInfoDto = courseBaseInfoService.updateCourseInfo(companyId, editCourseDto);
         return courseBaseInfoDto;
     }
-
 }

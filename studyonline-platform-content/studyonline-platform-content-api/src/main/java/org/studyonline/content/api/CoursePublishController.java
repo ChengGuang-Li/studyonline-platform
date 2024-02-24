@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.studyonline.content.model.dto.CoursePreviewDto;
 import org.studyonline.content.service.CoursePublishService;
+import org.studyonline.content.util.SecurityUtil;
 
 /**
  * @Description: Course preview, release
@@ -37,7 +38,8 @@ public class CoursePublishController {
     @ResponseBody
     @PostMapping("/courseaudit/commit/{courseId}")
     public void commitAudit(@PathVariable("courseId") Long courseId){
-        Long companyId = 1232141425L;
+        SecurityUtil.User user = SecurityUtil.getUser();
+        Long companyId = Long.parseLong(user.getCompanyId());
         coursePublishService.commitAudit(companyId,courseId);
     }
 
@@ -46,7 +48,8 @@ public class CoursePublishController {
     @ResponseBody
     @PostMapping ("/coursepublish/{courseId}")
     public void coursepublish(@PathVariable("courseId") Long courseId){
-        Long companyId = 1232141425L;
+        SecurityUtil.User user = SecurityUtil.getUser();
+        Long companyId = Long.parseLong(user.getCompanyId());
         coursePublishService.publish(companyId,courseId);
 
     }

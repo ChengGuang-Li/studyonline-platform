@@ -29,3 +29,7 @@ POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&gr
 
 ###check jwt token
 POST {{auth_host}}/auth/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic3R1ZHlvbmxpbmUtcGxhdGZvcm0iXSwidXNlcl9uYW1lIjoibGlzaSIsInNjb3BlIjpbImFsbCJdLCJleHAiOjE3MDg0Mzc3MzQsImF1dGhvcml0aWVzIjpbInAyIl0sImp0aSI6IjdjNTY3YWM2LWVlN2ItNDNkYS1iN2M2LTg1MWU1NmEzMzhhMSIsImNsaWVudF9pZCI6IlhjV2ViQXBwIn0.FYYZkTNGOa5hNHDdyeRPsUErmSKgNBzHiVM-jexYBlA
+
+
+### Get the token by passsword mode through AuthParamsDto parameters
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username={"userName":"t1","password":"123","authType":"password"}
