@@ -1,0 +1,2 @@
+### Apply for verification code through gateway
+POST {{gateway_host}}/captcha/pic

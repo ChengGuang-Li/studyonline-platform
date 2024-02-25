@@ -6,7 +6,7 @@ spring:
       server-addr: 192.168.101.65:8848
       discovery:
         namespace: dev01
-        group: studyonline-platform-common
+        group: studyonline-platform-project
       config:
         namespace: dev01
         group: studyonline-platform-project

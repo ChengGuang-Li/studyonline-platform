@@ -1,10 +1,12 @@
 package org.studyonline.ucenter.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.studyonline.ucenter.feignclient.CaptchaClient;
 import org.studyonline.ucenter.mapper.UserMapper;
 import org.studyonline.ucenter.model.dto.AuthParamsDto;
 import org.studyonline.ucenter.model.dto.XcUserExt;
@@ -22,9 +24,20 @@ public class PasswordAuthServiceimpl implements AuthService {
     UserMapper userMapper;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    CaptchaClient captchaClient;
     @Override
     public XcUserExt execute(AuthParamsDto authParamsDto) {
-        //TODO: 1. check the Verification code
+        // 1. check the Verification code
+        String checkcode = authParamsDto.getCheckcode();
+        String checkcodekey = authParamsDto.getCheckcodekey();
+        if(StringUtils.isEmpty(checkcode) || StringUtils.isEmpty(checkcodekey)){
+            throw new RuntimeException("Verification code cannot be empty");
+        }
+        Boolean verify = captchaClient.verify(checkcodekey, checkcode);
+        if(verify == null || !verify){
+            throw new RuntimeException("Verification code is incorrect");
+        }
 
         //2. check the Account exist or not
         String userName = authParamsDto.getUsername();

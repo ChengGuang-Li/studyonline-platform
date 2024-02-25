@@ -32,4 +32,4 @@ POST {{auth_host}}/auth/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX
 
 
 ### Get the token by passsword mode through AuthParamsDto parameters
-POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username={"userName":"t1","password":"123","authType":"password"}
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username={"userName":"t1","password":"111111","authType":"password"}
