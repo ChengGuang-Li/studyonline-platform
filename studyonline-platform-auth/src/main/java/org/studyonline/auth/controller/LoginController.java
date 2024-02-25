@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.studyonline.ucenter.mapper.UserMapper;
-import org.studyonline.ucenter.model.po.User;
+import org.studyonline.ucenter.model.po.XcUser;
 
 /**
  * @Description:
@@ -31,9 +31,9 @@ public class LoginController {
 
 
     @RequestMapping("/user/{id}")
-    public User getuser(@PathVariable("id") String id) {
-        User user = userMapper.selectById(id);
-        return user;
+    public XcUser getuser(@PathVariable("id") String id) {
+        XcUser xcUser = userMapper.selectById(id);
+        return xcUser;
     }
 
     @RequestMapping("/r/r1")

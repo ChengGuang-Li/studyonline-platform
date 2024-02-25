@@ -5,13 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.studyonline.ucenter.mapper.UserMapper;
 import org.studyonline.ucenter.model.dto.AuthParamsDto;
-import org.studyonline.ucenter.model.dto.UserExt;
+import org.studyonline.ucenter.model.dto.XcUserExt;
 import org.studyonline.ucenter.service.AuthService;
 
 /**
@@ -42,12 +43,12 @@ public class UserServiceImpl implements UserDetailsService {
 
         String authType = authParamsDto.getAuthType();//get the auth type
         if(StringUtils.isBlank(authType)){
-            log.error("the User: {} does not have the authentication type",authParamsDto);
+            log.error("the XcUser: {} does not have the authentication type",authParamsDto);
             return null;
         }
         String beanName = authType + "_authservice";
         AuthService authService = applicationContext.getBean(beanName, AuthService.class);//unified authentication service
-        UserExt userExt = authService.execute(authParamsDto);
+        XcUserExt userExt = authService.execute(authParamsDto);
 
         UserDetails userDetails = getUserPrincipal(userExt);
         return userDetails;
@@ -57,19 +58,19 @@ public class UserServiceImpl implements UserDetailsService {
     /**
      * @description get user details
      * @param user  user id
-     * @return org.studyonline.ucenter.model.po.User ; User Information
+     * @return org.studyonline.ucenter.model.po.XcUser ; XcUser Information
      * @Author: Chengguang Li
      * @Date: 24/02/2024 11:45 pm
      */
-    public UserDetails getUserPrincipal(UserExt user){
-        //User authority, if it is empty, an error will be reported: Cannot pass a null GrantedAuthority collection
+    public UserDetails getUserPrincipal(XcUserExt user){
+        //XcUser authority, if it is empty, an error will be reported: Cannot pass a null GrantedAuthority collection
         String[] authorities = {"p1"};
         String password = user.getPassword();
         user.setPassword(null);
-        //convert User object to Json
+        //convert XcUser object to Json
         String userString = JSON.toJSONString(user);
         //Create UserDetails object
-        UserDetails userDetails = org.springframework.security.core.userdetails.User.withUsername(userString).password(password ).authorities(authorities).build();
+        UserDetails userDetails = User.withUsername(userString).password(password ).authorities(authorities).build();
         return userDetails;
     }
 

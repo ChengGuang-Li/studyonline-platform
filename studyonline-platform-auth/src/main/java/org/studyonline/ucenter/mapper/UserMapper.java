@@ -1,7 +1,7 @@
 package org.studyonline.ucenter.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.studyonline.ucenter.model.po.User;
+import org.studyonline.ucenter.model.po.XcUser;
 
 
 /**
@@ -9,6 +9,6 @@ import org.studyonline.ucenter.model.po.User;
  * @Author: Chengguang Li
  * @Date: 20/02/2024 2:10 pm
  */
-public interface UserMapper extends BaseMapper<User> {
+public interface UserMapper extends BaseMapper<XcUser> {
 
 }

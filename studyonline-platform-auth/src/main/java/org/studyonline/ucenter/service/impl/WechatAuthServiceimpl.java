@@ -1,7 +1,7 @@
 package org.studyonline.ucenter.service.impl;
 
 import org.studyonline.ucenter.model.dto.AuthParamsDto;
-import org.studyonline.ucenter.model.dto.UserExt;
+import org.studyonline.ucenter.model.dto.XcUserExt;
 import org.studyonline.ucenter.service.AuthService;
 
 /**
@@ -11,7 +11,7 @@ import org.studyonline.ucenter.service.AuthService;
  */
 public class WechatAuthServiceimpl implements AuthService {
     @Override
-    public UserExt execute(AuthParamsDto authParamsDto) {
+    public XcUserExt execute(AuthParamsDto authParamsDto) {
         //TODO: Based on WeChat QR code verification logic
 
         return null;

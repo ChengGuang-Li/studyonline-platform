@@ -1,7 +1,7 @@
 package org.studyonline.ucenter.service;
 
 import org.studyonline.ucenter.model.dto.AuthParamsDto;
-import org.studyonline.ucenter.model.dto.UserExt;
+import org.studyonline.ucenter.model.dto.XcUserExt;
 
 /**
  * @Description: Unified authentication interface
@@ -12,10 +12,10 @@ public interface AuthService {
     /**
      * @description authentication method
      * @param authParamsDto Authentication parameters
-     * @return org.studyonline.ucenter.model.po.User ; user information
+     * @return org.studyonline.ucenter.model.po.XcUser ; user information
      * @author: Chengguang Li
      * @date: 24/02/2024 11:21 pm
      */
-    UserExt execute(AuthParamsDto authParamsDto);
+    XcUserExt execute(AuthParamsDto authParamsDto);
 
 }

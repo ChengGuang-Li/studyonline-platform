@@ -1,7 +1,7 @@
 package org.studyonline.ucenter.model.dto;
 
 import lombok.Data;
-import org.studyonline.ucenter.model.po.User;
+import org.studyonline.ucenter.model.po.XcUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @Date: 20/02/2024 2:11 pm
  */
 @Data
-public class UserExt extends User {
-    //User rights
+public class XcUserExt extends XcUser {
+    //XcUser rights
     List<String> permissions = new ArrayList<>();
 }
