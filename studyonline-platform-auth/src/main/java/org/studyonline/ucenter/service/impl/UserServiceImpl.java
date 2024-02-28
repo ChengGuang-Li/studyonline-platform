@@ -10,10 +10,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.studyonline.ucenter.mapper.MenuMapper;
 import org.studyonline.ucenter.mapper.UserMapper;
 import org.studyonline.ucenter.model.dto.AuthParamsDto;
 import org.studyonline.ucenter.model.dto.XcUserExt;
+import org.studyonline.ucenter.model.po.Menu;
 import org.studyonline.ucenter.service.AuthService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Description: Customize UserDetailsService to interface with Spring Security
@@ -30,6 +35,9 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Autowired
     ApplicationContext applicationContext;
+
+    @Autowired
+    MenuMapper menuMapper;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -64,7 +72,15 @@ public class UserServiceImpl implements UserDetailsService {
      */
     public UserDetails getUserPrincipal(XcUserExt user){
         //XcUser authority, if it is empty, an error will be reported: Cannot pass a null GrantedAuthority collection
-        String[] authorities = {"p1"};
+        String[] authorities = {"empty"};
+        List<Menu> menus = menuMapper.selectPermissionByUserId(user.getId());
+        if(menus.size() > 0){
+            List<String> permissions = new ArrayList<>();
+            menus.forEach(item ->{
+                permissions.add(item.getCode());
+            });
+            authorities = permissions.toArray(new String[permissions.size()]);
+        }
         String password = user.getPassword();
         user.setPassword(null);
         //convert XcUser object to Json

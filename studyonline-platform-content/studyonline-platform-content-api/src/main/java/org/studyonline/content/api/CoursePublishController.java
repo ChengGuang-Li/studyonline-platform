@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.studyonline.content.model.dto.CoursePreviewDto;
+import org.studyonline.content.model.po.CoursePublish;
 import org.studyonline.content.service.CoursePublishService;
 import org.studyonline.content.util.SecurityUtil;
 
@@ -52,6 +53,15 @@ public class CoursePublishController {
         Long companyId = Long.parseLong(user.getCompanyId());
         coursePublishService.publish(companyId,courseId);
 
+    }
+
+    @ApiOperation("Query course release information")
+    @ResponseBody
+    @GetMapping("/r/coursepublish/{courseId}")
+    public CoursePublish getCoursepublish(@PathVariable("courseId") Long courseId) {
+        //Query course release information
+        CoursePublish coursePublish = coursePublishService.getCoursePublish(courseId);
+        return coursePublish;
     }
 
 }

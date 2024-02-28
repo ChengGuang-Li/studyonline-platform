@@ -1,6 +1,7 @@
 package org.studyonline.content.service;
 
 import org.studyonline.content.model.dto.CoursePreviewDto;
+import org.studyonline.content.model.po.CoursePublish;
 
 import java.io.File;
 
@@ -57,5 +58,10 @@ public interface CoursePublishService {
      */
     public void  uploadCourseHtml(Long courseId, File file);
 
-
+    /**
+     * Query course release information based on course id
+     * @param courseId
+     * @return
+     */
+    public CoursePublish getCoursePublish(Long courseId);
 }

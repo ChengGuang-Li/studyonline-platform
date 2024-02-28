@@ -47,13 +47,14 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
     CourseCategoryMapper courseCategoryMapper;
 
     @Override
-    public PageResult<CourseBase> queryCourseBaseInfoList(PageParams pageParams, QueryCourseParamsDto queryCourseParams) {
+    public PageResult<CourseBase> queryCourseBaseInfoList(PageParams pageParams, QueryCourseParamsDto queryCourseParams,Long companyId) {
          //Build query object
          LambdaQueryWrapper<CourseBase> queryWrapper = new LambdaQueryWrapper<>();
          //Build query conditions
          queryWrapper.like(StringUtils.isNotEmpty(queryCourseParams.getCourseName()), CourseBase::getName,queryCourseParams.getCourseName());
          queryWrapper.eq(StringUtils.isNotEmpty(queryCourseParams.getAuditStatus()),CourseBase::getAuditStatus,queryCourseParams.getAuditStatus());
          queryWrapper.eq(StringUtils.isNotEmpty(queryCourseParams.getPublishStatus()),CourseBase::getStatus,queryCourseParams.getPublishStatus());
+         queryWrapper.eq(CourseBase::getCompanyId,companyId); //Fine-grained permissions
 
          //Pagination Object
         Page<CourseBase> page = new Page<>(pageParams.getPageNo(),pageParams.getPageSize());

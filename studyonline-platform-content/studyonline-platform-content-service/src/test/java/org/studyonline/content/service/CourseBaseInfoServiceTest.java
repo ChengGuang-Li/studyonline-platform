@@ -27,7 +27,8 @@ class CourseBaseInfoServiceTest {
 
         //Pagination parameters
         PageParams pageParams = new PageParams(1L, 10L);
-        PageResult<CourseBase> courseBasePageResult = courseBaseInfoService.queryCourseBaseInfoList(pageParams, queryCourseParamsDto);
+        Long companyId = 12345678L;
+        PageResult<CourseBase> courseBasePageResult = courseBaseInfoService.queryCourseBaseInfoList(pageParams, queryCourseParamsDto,companyId);
         Assertions.assertNotNull(courseBasePageResult);
     }
 

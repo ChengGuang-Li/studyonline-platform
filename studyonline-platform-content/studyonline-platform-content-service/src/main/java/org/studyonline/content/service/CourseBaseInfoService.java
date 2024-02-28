@@ -23,7 +23,7 @@ public interface CourseBaseInfoService {
      * @author chengguang li
      * @date 05/01/2024 22:30
      */
-  public PageResult<CourseBase> queryCourseBaseInfoList(PageParams pageParams,QueryCourseParamsDto queryCourseParams);
+  public PageResult<CourseBase> queryCourseBaseInfoList(PageParams pageParams,QueryCourseParamsDto queryCourseParams,Long companyId);
 
     /*
      * @description                 Add new Course
