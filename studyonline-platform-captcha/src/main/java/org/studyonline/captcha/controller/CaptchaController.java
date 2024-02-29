@@ -4,11 +4,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.studyonline.captcha.model.CaptchaResultDto;
 import org.studyonline.captcha.model.CaptchaParamsDto;
 import org.studyonline.captcha.service.CaptchaService;
+import org.studyonline.captcha.service.SendCodeService;
 
 import javax.annotation.Resource;
 
@@ -25,6 +28,8 @@ public class CaptchaController {
     @Resource(name = "PicCaptchaService")
     private CaptchaService picCaptchaService;
 
+   @Autowired
+    SendCodeService sendCodeService;
 
     @ApiOperation(value="Generate verification information", notes="Generate verification information")
     @PostMapping(value = "/pic")
@@ -43,4 +48,10 @@ public class CaptchaController {
         Boolean isSuccess = picCaptchaService.verify(key,code);
         return isSuccess;
     }
+
+    @PostMapping(value = "/email")
+     public void sendEmail(@RequestParam("email") String email){
+         sendCodeService.sendEMail(email);
+     }
+
 }

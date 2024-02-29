@@ -10,3 +10,5 @@ POST {{captcha_host}}/captcha/pic
 POST {{captcha_host}}/captcha/verify?key=checkcode:58b4c885c7524e8ead9be069ba0f15e7&code=29cz
 
 
+### Send Email Verificaiton Code
+POST {{captcha_host}}/captcha/email?email=chengguang333@gmail.com
