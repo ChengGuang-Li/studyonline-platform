@@ -76,7 +76,7 @@ public class CoursePublishController {
     @GetMapping("/course/whole/{courseId}")
     public CoursePreviewDto getCoursePublish(@PathVariable("courseId") Long courseId) {
         //Query course release information
-        CoursePublish coursePublish = coursePublishService.getCoursePublish(courseId);
+        CoursePublish coursePublish = coursePublishService.getCoursePublishCache(courseId);
         if (coursePublish == null) {
             return new CoursePreviewDto();
         }

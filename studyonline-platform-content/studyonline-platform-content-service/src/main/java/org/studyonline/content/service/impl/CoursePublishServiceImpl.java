@@ -9,6 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
@@ -40,6 +41,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description:
@@ -72,6 +75,9 @@ public class CoursePublishServiceImpl implements CoursePublishService {
 
     @Autowired
     MediaServiceClient mediaServiceClient;
+
+    @Autowired
+    RedisTemplate redisTemplate;
 
     @Override
     public CoursePreviewDto getCoursePreviewInfo(Long courseId) {
@@ -239,5 +245,37 @@ public class CoursePublishServiceImpl implements CoursePublishService {
     public CoursePublish getCoursePublish(Long courseId) {
         CoursePublish coursePublish = coursePublishMapper.selectById(courseId);
         return coursePublish ;
+    }
+
+    @Override
+    public CoursePublish getCoursePublishCache(Long courseId) {
+          String courseKey = "course:" + courseId;
+
+          Object jsonObj = redisTemplate.opsForValue().get(courseKey);
+          if(jsonObj != null){
+              String jsonObjString = jsonObj.toString();
+              if(jsonObjString.equals("null")){
+                  return null; //Avoid cache penetration
+              }
+              CoursePublish coursePublish = JSON.parseObject(jsonObjString, CoursePublish.class);
+              return coursePublish;
+          }
+          synchronized (this){
+               jsonObj = redisTemplate.opsForValue().get(courseKey);
+               if(jsonObj != null){
+                   String jsonObjString = jsonObj.toString();
+                   if(jsonObjString.equals("null")){
+                       return null;
+                   }
+                   CoursePublish coursePublish = JSON.parseObject(jsonObjString, CoursePublish.class);
+                   return coursePublish;
+               }
+
+              //if the cache doesn't have the data , get it from database
+              CoursePublish coursePublish = coursePublishMapper.selectById(courseId);
+              redisTemplate.opsForValue().set(courseKey,JSON.toJSONString(coursePublish),30 + new Random().nextInt(100), TimeUnit.SECONDS);
+              return coursePublish;
+          }
+
     }
 }
