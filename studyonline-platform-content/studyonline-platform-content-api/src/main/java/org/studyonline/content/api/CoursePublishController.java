@@ -1,6 +1,8 @@
 package org.studyonline.content.api;
 
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,10 +10,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.studyonline.content.model.dto.CourseBaseInfoDto;
 import org.studyonline.content.model.dto.CoursePreviewDto;
+import org.studyonline.content.model.dto.TeachplanDto;
 import org.studyonline.content.model.po.CoursePublish;
 import org.studyonline.content.service.CoursePublishService;
 import org.studyonline.content.util.SecurityUtil;
+
+import java.util.List;
 
 /**
  * @Description: Course preview, release
@@ -63,5 +69,28 @@ public class CoursePublishController {
         CoursePublish coursePublish = coursePublishService.getCoursePublish(courseId);
         return coursePublish;
     }
+
+
+    @ApiOperation("Get course release information")
+    @ResponseBody
+    @GetMapping("/course/whole/{courseId}")
+    public CoursePreviewDto getCoursePublish(@PathVariable("courseId") Long courseId) {
+        //Query course release information
+        CoursePublish coursePublish = coursePublishService.getCoursePublish(courseId);
+        if (coursePublish == null) {
+            return new CoursePreviewDto();
+        }
+
+        //Basic course information
+        CourseBaseInfoDto courseBase = new CourseBaseInfoDto();
+        BeanUtils.copyProperties(coursePublish, courseBase);
+        //Course Plan
+        List<TeachplanDto> teachplans = JSON.parseArray(coursePublish.getTeachplan(), TeachplanDto.class);
+        CoursePreviewDto coursePreviewInfo = new CoursePreviewDto();
+        coursePreviewInfo.setCourseBase(courseBase);
+        coursePreviewInfo.setTeachplans(teachplans);
+        return coursePreviewInfo;
+    }
+
 
 }

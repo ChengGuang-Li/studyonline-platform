@@ -68,7 +68,15 @@ public class MyCourseTablesController {
     @ApiOperation("My class schedule")
     @GetMapping("/mycoursetable")
     public PageResult<CourseTables> mycoursetable(MyCourseTableParams params) {
-        return null;
+        SecurityUtil.User user = SecurityUtil.getUser();
+        if(user == null){
+            StudyOnlineException.cast("Please Login");
+        }
+        //User Id
+        String id = user.getId();
+        params.setUserId(id);
+        PageResult<CourseTables> mycoursetables = myCourseTablesService.mycoursetables(params);
+        return mycoursetables;
     }
 
 }

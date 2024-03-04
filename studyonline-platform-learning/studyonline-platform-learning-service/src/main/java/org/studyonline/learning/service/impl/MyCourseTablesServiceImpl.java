@@ -1,17 +1,20 @@
 package org.studyonline.learning.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.studyonline.base.exception.StudyOnlineException;
+import org.studyonline.base.model.PageResult;
 import org.studyonline.content.model.po.CoursePublish;
 import org.studyonline.learning.feignclient.ContentServiceClient;
 import org.studyonline.learning.mapper.ChooseCourseMapper;
 import org.studyonline.learning.mapper.CourseTablesMapper;
 import org.studyonline.learning.model.dto.ChooseCourseDto;
 import org.studyonline.learning.model.dto.CourseTablesDto;
+import org.studyonline.learning.model.dto.MyCourseTableParams;
 import org.studyonline.learning.model.po.ChooseCourse;
 import org.studyonline.learning.model.po.CourseTables;
 import org.studyonline.learning.service.MyCourseTablesService;
@@ -122,6 +125,20 @@ public class MyCourseTablesServiceImpl implements MyCourseTablesService {
         }
 
         return false;
+    }
+
+    @Override
+    public PageResult<CourseTables> mycoursetables(MyCourseTableParams params) {
+        String userId = params.getUserId();
+        int pageNo = params.getPage();
+        int size = params.getSize();
+        Page<CourseTables> courseTablesPage = new Page<>(pageNo, size);
+        LambdaQueryWrapper<CourseTables> lambdaQueryWrapper = new LambdaQueryWrapper<CourseTables>().eq(CourseTables::getUserId, userId);
+        Page<CourseTables> result = courseTablesMapper.selectPage(courseTablesPage, lambdaQueryWrapper);
+        List<CourseTables> records = result.getRecords();
+        long total = result.getTotal();
+        PageResult pageResult = new PageResult(records, total, pageNo, size);
+        return pageResult;
     }
 
 

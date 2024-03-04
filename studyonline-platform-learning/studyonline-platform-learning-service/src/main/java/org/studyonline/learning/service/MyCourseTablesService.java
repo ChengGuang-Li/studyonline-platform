@@ -1,7 +1,10 @@
 package org.studyonline.learning.service;
 
+import org.studyonline.base.model.PageResult;
 import org.studyonline.learning.model.dto.ChooseCourseDto;
 import org.studyonline.learning.model.dto.CourseTablesDto;
+import org.studyonline.learning.model.dto.MyCourseTableParams;
+import org.studyonline.learning.model.po.CourseTables;
 
 /**
  * @Description:
@@ -36,4 +39,11 @@ public interface MyCourseTablesService {
      * @return
      */
     public boolean saveChooseCourseSuccess(String chooseCourseId);
+
+    /**
+     *
+     * @param params
+     * @return
+     */
+    public PageResult<CourseTables> mycoursetables(MyCourseTableParams params);
 }
