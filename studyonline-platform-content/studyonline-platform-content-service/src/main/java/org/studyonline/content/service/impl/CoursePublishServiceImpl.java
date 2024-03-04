@@ -7,6 +7,8 @@ import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -78,6 +80,9 @@ public class CoursePublishServiceImpl implements CoursePublishService {
 
     @Autowired
     RedisTemplate redisTemplate;
+
+    @Autowired
+    RedissonClient redissonClient;
 
     @Override
     public CoursePreviewDto getCoursePreviewInfo(Long courseId) {
@@ -260,7 +265,9 @@ public class CoursePublishServiceImpl implements CoursePublishService {
               CoursePublish coursePublish = JSON.parseObject(jsonObjString, CoursePublish.class);
               return coursePublish;
           }
-          synchronized (this){
+         RLock lock = redissonClient.getLock("courseQueryLock:" + courseId);
+         lock.lock(); //get the distributed key
+          try{
                jsonObj = redisTemplate.opsForValue().get(courseKey);
                if(jsonObj != null){
                    String jsonObjString = jsonObj.toString();
@@ -275,7 +282,10 @@ public class CoursePublishServiceImpl implements CoursePublishService {
               CoursePublish coursePublish = coursePublishMapper.selectById(courseId);
               redisTemplate.opsForValue().set(courseKey,JSON.toJSONString(coursePublish),30 + new Random().nextInt(100), TimeUnit.SECONDS);
               return coursePublish;
-          }
+          }finally {
+               //release lock
+              lock.unlock();
+        }
 
     }
 }

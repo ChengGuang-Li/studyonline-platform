@@ -115,6 +115,12 @@
             <artifactId>commons-pool2</artifactId>
             <version>2.6.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>3.11.2</version>
+        </dependency>
+
 
     </dependencies>
 
