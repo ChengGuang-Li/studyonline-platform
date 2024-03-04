@@ -29,4 +29,11 @@ public interface MyCourseTablesService {
      * @date: 28/02/2024 5:07 pm
      */
     public CourseTablesDto getLearningStatus(String userId, Long courseId);
+
+    /**
+     * Save course selection success status
+     * @param chooseCourseId
+     * @return
+     */
+    public boolean saveChooseCourseSuccess(String chooseCourseId);
 }

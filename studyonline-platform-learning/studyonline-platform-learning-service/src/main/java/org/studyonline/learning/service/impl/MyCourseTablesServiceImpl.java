@@ -97,6 +97,33 @@ public class MyCourseTablesServiceImpl implements MyCourseTablesService {
         return courseTablesDto;
     }
 
+    @Override
+    public boolean saveChooseCourseSuccess(String chooseCourseId) {
+        //query course_selection table by course Id
+        ChooseCourse chooseCourse = chooseCourseMapper.selectById(chooseCourseId);
+        if(chooseCourse == null){
+            log.debug("Receive the message to purchase the course, but cannot find the course selection record from the database based on the course selection ID, the course selection ID :{}",chooseCourseId);
+            return false;
+        }
+        String status = chooseCourse.getStatus(); //course status
+        //Update to paid only if unpaid
+        if("701002".equals(status)){
+            //Update the status of the course selection record to payment successful
+            chooseCourse.setStatus("701001");
+            int i = chooseCourseMapper.updateById(chooseCourse);
+            if(i<=0){
+                log.debug("Failed to add course selection record:{}",chooseCourse);
+                StudyOnlineException.cast("Failed to add course selection record");
+            }
+
+            //Insert records into my course schedule
+            addCourseTabls(chooseCourse);
+            return true;
+        }
+
+        return false;
+    }
+
 
     /** Add a paid course
      *

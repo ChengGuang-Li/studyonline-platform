@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.studyonline</groupId>
-        <artifactId>studyonline-platform-learning</artifactId>
+        <artifactId>studyonline-platform-orders</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>studyonline-platform-learning-service</artifactId>
+    <artifactId>studyonline-platform-orders-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>studyonline-platform-learning-service</name>
-    <description>studyonline-platform-learning-service</description>
+    <name>studyonline-platform-orders-service</name>
+    <description>studyonline-platform-orders-service</description>
 
     <dependencies>
         <dependency>
@@ -29,12 +29,7 @@
         </dependency>
         <dependency>
             <groupId>org.studyonline</groupId>
-            <artifactId>studyonline-platform-learning-model</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.studyonline</groupId>
-            <artifactId>studyonline-platform-content-model</artifactId>
+            <artifactId>studyonline-platform-orders-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <!-- MySQL 驱动 -->
@@ -87,6 +82,19 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+        <!-- 支付宝SDK -->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>3.7.73.ALL</version>
+        </dependency>
+
+        <!-- 支付宝SDK依赖的日志 -->
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
         <dependency>
             <groupId>com.xuxueli</groupId>
             <artifactId>xxl-job-core</artifactId>
@@ -95,6 +103,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
         </dependency>
 
     </dependencies>
