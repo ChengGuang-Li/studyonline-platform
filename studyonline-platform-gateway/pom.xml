@@ -77,4 +77,60 @@
 
 
     </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.2.2</version>
+                <configuration>
+                    <!--<imageName>${project.artifactId}:${project.version}</imageName>-->
+                    <imageName>192.168.101.65:5000/${project.artifactId}:${project.version}</imageName>
+                    <!-- <imageTags>
+                         <imageTag>${project.version}</imageTag>
+                         &lt;!&ndash;build 时强制覆盖 tag，配合 imageTags 使用&ndash;&gt;
+                         <forceTags>true</forceTags>
+                         &lt;!&ndash;build 完成后，push 指定 tag 的镜像，配合 imageTags 使用&ndash;&gt;
+                         <pushImageTag>true</pushImageTag>
+                     </imageTags>-->
+                    <baseImage>java:8u20</baseImage>
+                    <maintainer>docker_maven docker_maven@email.com</maintainer>
+                    <workdir>/root</workdir>
+                    <cmd>["java", "-version"]</cmd>
+                    <!--来指明Dockerfile文件的所在目录，如果配置了dockerDirectory则忽略baseImage，maintainer等配置-->
+                    <!--<dockerDirectory>./</dockerDirectory>-->
+                    <dockerHost>http://192.168.101.65:2375</dockerHost>
+                    <!--入口点，project.build.finalName就是project标签下的build标签下 的filename标签内容，testDocker-->
+                    <!--相当于启动容器后，会自动执行java -jar ...-->
+                    <entryPoint>["java", "-Dfile.encoding=utf-8","-jar", "/root/${project.build.finalName}.jar"]</entryPoint>
+                    <!--是否推送到docker私有仓库，旧版本插件要配置maven的settings文件。 -->
+                    <pushImage>true</pushImage>
+                    <registryUrl>192.168.101.65:5000</registryUrl>  <!-- 这里是复制 jar 包到 docker 容器指定目录配置 -->
+                    <resources>
+                        <resource>
+                            <targetPath>/root</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <!--把哪个文件上传到docker，相当于Dockerfile里的add app.jar /-->
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
