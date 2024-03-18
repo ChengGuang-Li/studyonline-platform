@@ -3,12 +3,28 @@ The project is based on the B2B2C business model, where educational institutions
 
 The backend architecture of this project is designed based on a distributed microservices framework to support high-concurrency and high-availability scenarios. 
 
-<a href="./resources/microservices.md">The included microservices</a>
+<p align="center"> <a href="./resources/microservices.md">The included microservices</a> </p>
+<img src="./resources/Microservices.png" alt="Microservices">
 
 
-### system Architecture Diagram
+### System Architecture Diagram
 
 <img align="center" alt="Architecture"  src="./resources/Architecture.gif">
 
+### Module Structure
 
+```mermaid
+---
+title: Studyonline-Platform module structure
+---
+flowchart BT
+base[Studyonline-Platform-Base] --> |inherit| parent[Studyonline-Platform-Parent]
+content[Studyonline-Platform-Content] --> |inherit| parent
+contentApi[Studyonline-Platform-Content-api] --> |inherit| content
+contentService[Studyonline-Platform-Content-service] --> |inherit| content
+contentApi[Studyonline-Platform-Content-api] --> |dependency| contentDb[Studyonline-Platform-Content-model]
+contentApi --> |dependency| contentService
+contentService --> |dependency| contentDb
+contentDb --> |dependency| base
+```
 
